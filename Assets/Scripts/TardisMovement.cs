@@ -22,7 +22,6 @@ public class TardisMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//inclination on X axis to move forward/backwards 
-		//this is bullshit. Just multiply vaxis by 35 and THEN slerp current rotation to this one by Time.deltaTime. 
 		_rotationX = Mathf.Lerp (0, 35, Mathf.Abs(Input.GetAxis("Vertical"))) * Mathf.Sign(Input.GetAxis("Vertical"));
 
 		transform.rotation = Quaternion.AngleAxis(_rotationX, transform.right);
