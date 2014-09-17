@@ -22,12 +22,12 @@ public class TardisMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//inclination on X axis to move forward/backwards 
-		_rotationX = Mathf.Lerp (0, 35, Mathf.Abs(Input.GetAxis("Vertical"))) * Mathf.Sign(Input.GetAxis("Vertical"));
+		_rotationX = Mathf.Lerp (0, 35, Mathf.Abs(Input.GetAxis("Vertical"))) * Mathf.Sign(Input.GetAxis("Vertical")*Time.deltaTime);
 
-		transform.rotation = Quaternion.AngleAxis(_rotationX, transform.right);
+		transform.rotation = Quaternion.identity*Quaternion.AngleAxis(_rotationX, transform.right);
 
 		//rotation on Y axis to turn
-		//transform.localRotation = transform.localRotation* Quaternion.Euler( Vector3.up * rotationSpeed);
+		//transform.rotation = Quaternion.AngleAxis(rotationSpeed * Time.deltaTime *Input.GetAxis("Horizontal"), Vector3.up)*transform.rotation;
 
 
 		//gravity and thrust behavior
