@@ -7,19 +7,22 @@ public class LandingSensor : MonoBehaviour {
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (transform.rotation.x==0)//I check the landing only if I'm perfectly horizontal
-		{
+
+	public bool CheckLandingPoint (out Vector3 hitpoint, float distanceLimit) {
+
 			Ray ray = new Ray (transform.position, Vector3.down);
 			RaycastHit hit;
-
-
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, platformLayer))
-			{
+			
+			
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, platformLayer) && hit.distance < distanceLimit) {
 				Debug.DrawRay (transform.position, Vector3.down*hit.distance, Color.green);
+				hitpoint = hit.point;
+				return true;
 			}
-		}//end X rotation check
+
+			else {
+				hitpoint=Vector3.zero;
+				return false;
+			} 
 	}
 }

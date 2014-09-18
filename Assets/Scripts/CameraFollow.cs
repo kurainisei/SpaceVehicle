@@ -15,9 +15,12 @@ public class CameraFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		cameraPosition = -target.forward*distance+target.position+transform.up*height;
-		transform.position=cameraPosition;
-		transform.LookAt(target);
+		if (target){
+			cameraPosition = -target.forward*distance+target.position+transform.up*height;
+			transform.position=cameraPosition;
+			transform.LookAt(target);
+		}
+
 	}
 
 
