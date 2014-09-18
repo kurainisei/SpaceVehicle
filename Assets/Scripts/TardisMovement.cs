@@ -18,10 +18,13 @@ public class TardisMovement : MonoBehaviour {
 	private float _rotationY=0;
 	private LandingSensor _landSensor;
 	private bool _hasLanded = false;
+	private AutoRotate _tardisContinueRotation;
 
 	// Use this for initialization
 	void Start () {
 		_landSensor = GetComponent<LandingSensor>();
+		_tardisContinueRotation = GetComponentInChildren<AutoRotate>();
+		_tardisContinueRotation.enabled = true;
 	}
 
 	// Update is called once per frame
@@ -31,12 +34,8 @@ public class TardisMovement : MonoBehaviour {
 			_rotationX = Mathf.Lerp (0, 35, Mathf.Abs(Input.GetAxis("Vertical"))) * Mathf.Sign(Input.GetAxis("Vertical")*Time.deltaTime);
 			_rotationY += Input.GetAxis("Horizontal")*rotationSpeed*Time.deltaTime;
 
-			Quaternion spinBy = Quaternion.AngleAxis(_rotationY, Vector3.up);
-			transform.rotation = spinBy*Quaternion.AngleAxis(_rotationX, transform.right);
-
-			//rotation on Y axis to turn
-			//transform.rotation = Quaternion.AngleAxis(rotationSpeed * Time.deltaTime *Input.GetAxis("Horizontal"), Vector3.up)*transform.rotation;
-
+			Quaternion spinBy = Quaternion.AngleAxis(_rotationX, transform.right);
+			transform.rotation = spinBy*Quaternion.AngleAxis(_rotationY, Vector3.up);
 
 			//gravity and thrust behavior
 			_gravity = Vector3.down*gravityAcceleration;
@@ -63,13 +62,14 @@ public class TardisMovement : MonoBehaviour {
 			}
 
 			//check if landed
-			if (transform.rotation.x==0&&_velocity.y>landingSpeedLimit){
+			if (transform.rotation.x==0&&_velocity.y>landingSpeedLimit&&_velocity.y<=0){
 
 				Vector3 hitpoint;
 
 				if (_landSensor.CheckLandingPoint (out hitpoint, 0.2f)){
 					transform.position=hitpoint;
 					_hasLanded=true;
+					_tardisContinueRotation.enabled=false;
 					Debug.Log("landed!");
 				}
 				else {

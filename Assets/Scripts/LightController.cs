@@ -12,7 +12,8 @@ public class LightController : MonoBehaviour {
 	private float _currentIntensity;
 	// Use this for initialization
 	void Start () {
-		_currentIntensity=0.5f;
+		_currentIntensity=engineLightIntensity/2;
+		_currentColor=engineLowColor;
 	}
 	
 	// Update is called once per frame
